@@ -10,14 +10,15 @@ env:
   AZURE_VM_NAME: "chatbrannan"
 
 jobs:
-  deploy:
+  stopvm:
     runs-on: ubuntu-latest
-    name: Shutdown VM
+    name: Shutdown and deallocate
     steps:
       - name: Shutdown VM
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_VM_CREDENTIALS }}
+
       - name: Shutdown VM
         uses: azure/CLI@v1
         with:
