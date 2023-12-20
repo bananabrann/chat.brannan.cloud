@@ -1,4 +1,4 @@
-name: stop_vm
+name: Shutdown VM
 
 on:
   workflow_dispatch:
