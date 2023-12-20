@@ -23,4 +23,4 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            az vm start --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name ${{ env.AZURE_VM_NAME }}
+            az vm start --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name "chatbrannan"
