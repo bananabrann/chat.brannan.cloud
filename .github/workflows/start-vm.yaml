@@ -1,0 +1,26 @@
+name: Start VM
+
+on:
+  workflow_dispatch:
+
+env:
+  AZURE_RESOURCE_GROUP: "chat.brannan.cloud"
+  AZURE_VM_NAME: "chatbrannan"
+
+jobs:
+  # First, start the vm
+  startvm:
+    runs-on: ubuntu-latest
+    name: Start VM
+    steps:
+      - name: Azure Login
+        uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_VM_CREDENTIALS }}
+
+      - name: Azure CLI script
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            az vm start --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name ${{ env.AZURE_VM_NAME }}}
