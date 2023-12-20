@@ -1,0 +1,27 @@
+name: stop_vm
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "00 05 * * *" # 11pm CT, 5am UTC
+
+env:
+  AZURE_RESOURCE_GROUP: "chat.brannan.cloud"
+  AZURE_VM_NAME: "chatbrannan"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Shutdown VM
+    steps:
+      - name: Shutdown VM
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_VM_CREDENTIALS }}
+      - name: Shutdown VM
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            az vm stop --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name ${{ env.AZURE_VM_NAME }}
+            az vm deallocate --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name ${{ env.AZURE_VM_NAME }}
