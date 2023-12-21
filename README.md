@@ -1,4 +1,4 @@
-# LibreChat at chat.brannan.cloud
+# LibreChat at brannan.cloud
 
 ![Static Badge](https://img.shields.io/badge/LibreChat_docs-blue?logo=readthedocs&link=https%3A%2F%2Fdocs.librechat.ai%2Findex.html)
 ![Website](https://img.shields.io/website?url=http%3A%2F%2F20.64.87.75&logo=microsoftazure&logoColor=blue)
