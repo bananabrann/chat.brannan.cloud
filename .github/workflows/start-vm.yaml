@@ -12,6 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Start VM
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Login to Azure
         uses: Azure/login@v1
         with:
@@ -23,3 +26,16 @@ jobs:
           azcliversion: 2.30.0
           inlineScript: |
             az vm start --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name "${{ env.AZURE_VM_NAME }}"
+      
+      - name: Get VM IP
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            az vm show --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name "${{ env.AZURE_VM_NAME }}" --show-details --query publicIps -o tsv
+      
+      - name: Set output
+        id: set-output
+        run: echo "::set-output name=ip::$IP"
+        env:
+          IP: ${{ steps.GetVMIP.outputs.stdout }}
