@@ -6,11 +6,14 @@ on:
 env:
   AZURE_RESOURCE_GROUP: "chat.brannan.cloud"
   AZURE_VM_NAME: "chatbrannan"
+  AZURE_STORAGE_ACCOUNT_CONFIG: "chatbrannan"
+  AZURE_CONTAINER_CONFIG: "files"
+  AZURE_BLOB_CONFIG: "chatbrannan.config.env"
 
 jobs:
   startvm:
     runs-on: ubuntu-latest
-    name: Start VM
+    name: Launch ChatLibre
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -37,13 +40,24 @@ jobs:
 
       - name: Print VM IP
         run: echo ${{ steps.get-vm-ip.outputs.vm_ip }}
-
-      - name: Copy config to VM
-        uses: appleboy/scp-action@v0.1.7
+      
+      - name: Download config file
+        uses: azure/CLI@v1
         with:
-          host: ${{ steps.get-vm-ip.outputs.vm_ip }}
-          port: 22
-          username: ${{ secrets.VM_USERNAME }}
-          key  : ${{ secrets.VM_SSH_KEY }}
-          source: "files/LibreChat/.env"
-          target: "~/"
+          azcliversion: 2.30.0
+          inlineScript: |
+            az storage blob download |
+            --account-name ${{ env.AZURE_STORAGE_ACCOUNT_CONFIG }} |
+            --container-name ${{ env.AZURE_CONTAINER_CONFIG }} |
+            --name ${{ env.AZURE_BLOB_CONFIG }} |
+            --file "test.env"
+
+      # - name: Copy config to VM
+      #   uses: appleboy/scp-action@v0.1.7
+      #   with:
+      #     host: ${{ steps.get-vm-ip.outputs.vm_ip }}
+      #     port: 22
+      #     username: ${{ secrets.VM_USERNAME }}
+      #     key  : ${{ secrets.VM_SSH_KEY }}
+      #     source: "files/LibreChat/.env"
+      #     target: "~/"
