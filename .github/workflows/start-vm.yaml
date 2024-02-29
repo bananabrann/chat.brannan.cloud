@@ -32,10 +32,18 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            az vm show --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name "${{ env.AZURE_VM_NAME }}" --show-details --query publicIps -o tsv
-      
-      - name: Set output
-        id: set-output
-        run: echo "::set-output name=ip::$IP"
-        env:
-          IP: ${{ steps.GetVMIP.outputs.stdout }}
+            vm_ip=$(az vm show --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name "${{ env.AZURE_VM_NAME }}" --show-details --query publicIps -o tsv)
+            echo "::set-output name=vm_ip::$vm_ip"
+
+      - name: Print VM IP
+        run: echo ${{ steps.get-vm-ip.outputs.vm_ip }}
+
+      - name: Copy config to VM
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ steps.get-vm-ip.outputs.vm_ip }}
+          port: 22
+          username: ${{ secrets.VM_USERNAME }}
+          key  : ${{ secrets.VM_SSH_KEY }}
+          source: "files/LibreChat/.env"
+          target: "~/"
