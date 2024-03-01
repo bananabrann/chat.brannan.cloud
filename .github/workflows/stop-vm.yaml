@@ -17,7 +17,7 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_VM_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_CREDS  }}
 
       - name: Shutdown VM
         uses: azure/CLI@v1
