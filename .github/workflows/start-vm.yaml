@@ -6,16 +6,26 @@ on:
 env:
   AZURE_RESOURCE_GROUP: "chat.brannan.cloud"
   AZURE_VM_NAME: "chatbrannan"
+  AZURE_STORAGE_ACCOUNT_CONFIG: "brannancloudstorage"
+  AZURE_CONTAINER_CONFIG: "chatbrannan"
+  AZURE_BLOB_CONFIG: "chatbrannan.config.env"
 
 jobs:
   startvm:
     runs-on: ubuntu-latest
-    name: Start VM
+    name: Launch ChatLibre
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Login to Azure
-        uses: Azure/login@v1
+        uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_VM_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_CREDS }}
+
+      - name: Set subscription
+        run: |
+          az account set --subscription "Personal"
 
       - name: Start VM
         uses: azure/CLI@v1
@@ -23,3 +33,34 @@ jobs:
           azcliversion: 2.30.0
           inlineScript: |
             az vm start --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name "${{ env.AZURE_VM_NAME }}"
+
+      - name: Get VM IP
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            ip=$(az vm show --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name "${{ env.AZURE_VM_NAME }}" --show-details --query publicIps -o tsv)
+            echo ip - $ip
+            echo "vm_ip=$ip" >> "$GITHUB_ENV"
+            echo "test_var=hello" >> "$GITHUB_ENV"
+
+      # - name: Print VM IP from GitHub environment
+      #   run: |
+      #     echo ${{ env.vm_ip }}
+
+      - name: Download config file
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            az storage blob download --verbose --account-name "chatbrannanstorage" --container-name "config" --name "chatbrannan.config.env" --file "./.env"
+
+      - name: Copy config to VM
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ env.vm_ip }}
+          port: 22
+          username: ${{ secrets.VM_USERNAME }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          source: "./.env"
+          target: "~/LibreChat/"
