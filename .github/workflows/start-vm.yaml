@@ -44,12 +44,9 @@ jobs:
             echo "vm_ip=$ip" >> "$GITHUB_ENV"
             echo "test_var=hello" >> "$GITHUB_ENV"
 
-      # - name: Print VM IP from GitHub environment
-      #   run: |
-      #     echo ${{ env.vm_ip }}
-
       - name: Download config file
         uses: azure/CLI@v1
+        if: false # currently disabled
         with:
           azcliversion: 2.30.0
           inlineScript: |
@@ -57,6 +54,7 @@ jobs:
 
       - name: Copy config to VM
         uses: appleboy/scp-action@v0.1.7
+        if: false # currently disabled
         with:
           host: ${{ env.vm_ip }}
           port: 22
