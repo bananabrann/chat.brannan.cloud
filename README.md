@@ -1,7 +1,6 @@
-# LibreChat at brannan.cloud
+# LibreChat at chat.brannan.cloud
 
 ![Static Badge](https://img.shields.io/badge/LibreChat_docs-blue?logo=readthedocs&link=https%3A%2F%2Fdocs.librechat.ai%2Findex.html)
-![Website](https://img.shields.io/website?url=http%3A%2F%2F20.64.87.75&logo=microsoftazure&logoColor=blue)
 
 This is an implementation of [LibreChat](https://github.com/danny-avila/LibreChat), a ChatGPT clone with extra features for general use for my family.
 
