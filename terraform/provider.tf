@@ -14,6 +14,6 @@ provider "digitalocean" {
 	token = var.do_token
 }
 
-data "digitalocean_ssh_key" "terraform" {
+data "digitalocean_ssh_key" "default" {
 	name = "be-quiet-wsl2"
 }

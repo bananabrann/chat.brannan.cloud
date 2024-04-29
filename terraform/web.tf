@@ -12,8 +12,7 @@ resource "digitalocean_droplet" "web" {
 	tags = [ "chat-brannan-cloud"]
 
 	ssh_keys = [
-		# data.digitalocean_ssh_key.terraform
-		data.digitalocean_ssh_key.terraform.fingerprint
+		data.digitalocean_ssh_key.default.id
 	]
 
 	connection {
@@ -21,17 +20,17 @@ resource "digitalocean_droplet" "web" {
 		user = "root"
 		type = "ssh"
 		private_key = file(var.pvt_key)
-		timeout = "2m"
+		timeout = "1m"
 	}
 
-	provisioner "remote-exec" {
-		inline = [
-			"export PATH=$PATH:/usr/bin",
-			# install nginx
-			"sudo apt update",
-			# "sudo apt install -y nginx"
-		]
-	}
+	# provisioner "remote-exec" {
+	# 	inline = [
+	# 		"export PATH=$PATH:/usr/bin",
+	# 		# install nginx
+	# 		"sudo apt update",
+	# 		# "sudo apt install -y nginx"
+	# 	]
+	# }
 }
 
 resource "digitalocean_firewall" "web" {
