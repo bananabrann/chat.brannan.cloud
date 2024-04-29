@@ -24,14 +24,36 @@ resource "digitalocean_droplet" "web" {
 		timeout = "2m"
 	}
 
-	# provisioner "remote-exec" {
-	# 	inline = [
-	# 		"export PATH=$PATH:/usr/bin",
-	# 		# install nginx
-	# 		"sudo apt update",
-	# 		"sudo apt install -y nginx"
-	# 	]
-	# }
+	provisioner "remote-exec" {
+		inline = [
+			"export PATH=$PATH:/usr/bin",
+			# install nginx
+			"sudo apt update",
+			# "sudo apt install -y nginx"
+		]
+	}
 }
 
+resource "digitalocean_firewall" "web" {
+	name = "only-22-80-and-443"
 
+	droplet_ids = [digitalocean_droplet.web.id]
+
+	inbound_rule {
+		protocol = "tcp"
+		port_range = "22"
+		source_addresses = ["0.0.0.0/0", "::/0"]
+	}
+
+	inbound_rule {
+		protocol = "tcp"
+		port_range = "80"
+		source_addresses = ["0.0.0.0/0", "::/0"]
+	}
+
+	inbound_rule {
+		protocol = "tcp"
+		port_range = "443"
+		source_addresses = ["0.0.0.0/0", "::/0"]
+	}
+}
