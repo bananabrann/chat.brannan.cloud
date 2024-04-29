@@ -1,10 +1,10 @@
-resource "random_id" "www-1" {
+resource "random_id" "web" {
 	byte_length = 8
 }
 
-resource "digitalocean_droplet" "www-1" {
+resource "digitalocean_droplet" "web" {
 	image = "ubuntu-24-04-x64"
-	name = "chat-brannan-cloud-${random_id.www-1.hex}"
+	name = "chat-brannan-cloud-${random_id.web.hex}"
 	region = "nyc1"
 	size = "s-1vcpu-1gb-intel"
 	monitoring = true
@@ -33,3 +33,5 @@ resource "digitalocean_droplet" "www-1" {
 	# 	]
 	# }
 }
+
+
