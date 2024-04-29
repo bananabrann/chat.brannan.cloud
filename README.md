@@ -1,6 +1,8 @@
 # LibreChat at chat.brannan.cloud
 
 ![Static Badge](https://img.shields.io/badge/LibreChat_docs-blue?logo=readthedocs&link=https%3A%2F%2Fdocs.librechat.ai%2Findex.html)
+![Start VM Badge](https://img.shields.io/github/actions/workflow/status/bananabrann/chat.brannan.cloud/start-vm.yaml?logo=github-actions&label=start%20vm&logoColor=white)
+![GitHub Issues](https://img.shields.io/github/issues/bananabrann/chat.brannan.cloud?logo=github)
 
 This is an implementation of [LibreChat](https://github.com/danny-avila/LibreChat), a ChatGPT clone with extra features for general use for my family.
 
