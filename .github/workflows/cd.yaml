@@ -39,7 +39,7 @@ jobs:
             -var "pvt_key=${{ secrets.DO_PRIVATE_KEY }}"
         env:
           TF_CLI_ARGS_output: "-json"
-        
+
       - name: Set output
         id: vars
         run: echo "::set-output name=ip_address::$(jq -r .ip_address.value terraform.output.json)"
@@ -53,6 +53,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      
+
       - name: Print droplet IP address
         run: echo ${{ steps.vars.outputs.ip_address }}
