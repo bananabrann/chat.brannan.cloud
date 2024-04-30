@@ -56,3 +56,8 @@ resource "digitalocean_firewall" "web" {
 		source_addresses = ["0.0.0.0/0", "::/0"]
 	}
 }
+
+output "ipv4_address" {
+	value = digitalocean_droplet.web.ipv4_address
+	description = "The IP address of the droplet."
+}

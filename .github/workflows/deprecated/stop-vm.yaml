@@ -1,9 +1,9 @@
 name: Shutdown VM
 
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: "00 05 * * *" # 11pm CT, 5am UTC
+#on:
+#  workflow_dispatch:
+#  schedule:
+#    - cron: "00 05 * * *" # 11pm CT, 5am UTC
 
 env:
   AZURE_RESOURCE_GROUP: "chat.brannan.cloud"

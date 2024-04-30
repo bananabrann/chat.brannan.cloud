@@ -12,21 +12,26 @@ This is an implementation of [LibreChat](https://github.com/danny-avila/LibreCha
 >
 > -- from their repo
 
-With a self-hosted LibreChat VM, my family and I no longer need to purchase expensive, rate-limited ChatGPT Pro. 
+With a self-hosted LibreChat VM, my family and I no longer need to purchase expensive, rate-limited ChatGPT Pro.
 
 ## Installation and Setup
+
 LibreChat is hosted on a VM and requires setup and configuration prior to use. Refer to the [LibreChat documentation](https://docs.librechat.ai/index.html) website for any details and questions.
 
 ## Useful Commands
+
 Assuming the VM is confugred and setup correctly, these are commands that are used frequently, listed here for convenience.
 
 ### Start the VM
+
 Trigger the GitHub Action.
 
 ### Stop the VM
+
 Trigger the GitHub Action.
 
 ### Start Docker process
+
 ```bash
 # Start the process
 sudo systemctl start docker
@@ -36,21 +41,25 @@ docker info
 ```
 
 ### Run an automated update
+
 ```bash
 npm run update:deployed
 ```
 
 ### Stop the docker container
+
 ```bash
 npm run stop:deployed
 ```
 
 ### Start the docker container
+
 ```bash
 npm run start:deployed
 ```
 
 ### First-time start-up for the app
+
 Only use this the first time; use regular `node` start commands if Docker has run before.
 
 ```bash

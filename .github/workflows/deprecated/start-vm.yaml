@@ -1,7 +1,7 @@
 name: Start VM
 
-on:
-  workflow_dispatch:
+#on:
+#  workflow_dispatch:
 
 env:
   AZURE_RESOURCE_GROUP: "chat.brannan.cloud"
