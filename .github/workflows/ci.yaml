@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    name: Prettier
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      - name: Install Prettier
+        run: npm install --global prettier
+
+      - name: Run Prettier
+        run: prettier --check .
+
+  terraform-plan:
+    runs-on: ubuntu-latest
+    name: Terraform Plan
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.1.3
+
+      - name: Terraform init
+        working-directory: ./terraform
+        run: terraform init
+
+      - name: Terraform plan
+        working-directory: ./terraform
+        run: |
+          terraform plan \
+            -var "do_token=${{ secrets.DO_TOKEN }}" \
+            -var "pvt_key=${{ secrets.DO_PRIVATE_KEY }}"
